@@ -176,7 +176,8 @@ public class FormSubmissionAutomation {
 
             // Example student data
             String[][] studentsData = {
-                    {"John Doe", "01732394777", "Male", "Islam", "Model Test", "2024", "NOTRE DAME COLLEGE MYMENSINGH [137031]", "Bangla", "Online Branch", "Online Campus"},
+                    //{"John Doe", "01732394777", "Male", "Islam", "Model Test", "2024", "NOTRE DAME COLLEGE MYMENSINGH [137031]", "Bangla", "Online Branch", "Online Campus"},
+                    {"John Doe", "01732394777", "Male", "Islam", "Ten", "2024", "NOTRE DAME COLLEGE MYMENSINGH [137031]", "Bangla", "Online Branch", "Online Campus"},
                     // ... add the rest of the students here
             };
 
@@ -212,7 +213,8 @@ public class FormSubmissionAutomation {
         // Assuming "Program" is a select dropdown
         WebElement program = driver.findElement(By.id("Program"));
         program.click();
-        program.sendKeys("Utkorsho SSC Final Preparation & Model Test");
+        //program.sendKeys("Utkorsho SSC Final Preparation & Model Test");
+        program.sendKeys("Utkorsho Free Class");
         program.click();
 
         WebElement sessionDropdown = driver.findElement(By.id("Session"));
@@ -225,6 +227,9 @@ public class FormSubmissionAutomation {
         Select versionDropdown = new Select(driver.findElement(By.name("VersionOfStudy")));
         versionDropdown.selectByVisibleText(student[7]); /// Till This Everything is working
 
+        /**
+         This is for Utkorsho SSC Final Preparation and model test
+         */
 //        Select branchDropdown = new Select(driver.findElement(By.name("OnlineBranch")));
 //        branchDropdown.selectByVisibleText(student[8]);
 //
@@ -232,14 +237,26 @@ public class FormSubmissionAutomation {
 //        campusDropdown.selectByVisibleText(student[9]);
 
 
+        /**
+         This is for Utkorsho SSC Final Preparation and model test
+         */
         // Assuming student[8] is the text for the branch you want to select.
-        WebElement branchDropdown = driver.findElement(By.name("OnlineBranch"));
-        branchDropdown.click(); // to expand the dropdown
-        branchDropdown.sendKeys(student[8]); // to filter or input the text
-        branchDropdown.sendKeys(Keys.RETURN); // to select the filtered option
+//        WebElement branchDropdown = driver.findElement(By.name("OnlineBranch"));
+//        branchDropdown.click(); // to expand the dropdown
+//        branchDropdown.sendKeys(student[8]); // to filter or input the text
+//        branchDropdown.sendKeys(Keys.RETURN); // to select the filtered option
 
-        Select branchD = new Select(driver.findElement(By.id("Branch")));
-        branchD.selectByVisibleText("Online Utkorsho");
+        /**
+         This is for Utkorsho SSC Final Preparation and model test
+         */
+//        Select branchD = new Select(driver.findElement(By.id("Branch")));
+//        branchD.selectByVisibleText("Online Utkorsho");
+
+
+                WebElement branchDropdown = driver.findElement(By.name("Branch"));
+        branchDropdown.click(); // to expand the dropdown
+        branchDropdown.sendKeys("Online Utkorsho"); // to filter or input the text
+        branchDropdown.sendKeys(Keys.RETURN);
 
 //        Select campusDropdown = new Select(driver.findElement(By.id("Campus")));
 //        campusDropdown.selectByVisibleText("Online Campus");
@@ -248,9 +265,17 @@ public class FormSubmissionAutomation {
         campusDropdown.click();
         campusDropdown.sendKeys("Online Campus");
         campusDropdown.click();
-
+/**
+ This is for Utkorsho SSC Final Preparation and model test
+ */
         // Find the checkbox using one of its attributes
-        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1351']"));
+//        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1351']"));
+//        if (!checkBox.isSelected()) {
+//            checkBox.click();
+//        }
+
+
+        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1363']"));
         if (!checkBox.isSelected()) {
             checkBox.click();
         }
@@ -263,42 +288,27 @@ public class FormSubmissionAutomation {
 
         Thread.sleep(1000);
         WebElement discountAmount = driver.findElement(By.name("spDiscountAmount"));
-        discountAmount.sendKeys("1800");
-
-        WebElement note = driver.findElement(By.name("referrerenceNote"));
-        note.sendKeys("Migration From Utkorsho");
-
-        WebElement receivableAmount = driver.findElement(By.name("receivedAmount"));
-        receivableAmount.sendKeys("0");
-
-        By discountApprovedByInput = By.id("DiscountApprovedByAutoComplete");
-        String searchText = "694"; // Replace with your search text
-        setDropdownValue(driver, "694", "8801708166087 - (0694) - Ratul");
-
-
-        Select type = new Select(driver.findElement(By.name("RefererList")));
-        type.selectByVisibleText("Team Member");
-
-        //selectReferrer(driver, wait, "3979", "3979 - Hady - 8801321143477");
-        setReferrerValue(driver, "3979","3979 - Hady - 8801321143477");
+        discountAmount.sendKeys("0");
 
 //        WebElement note = driver.findElement(By.name("referrerenceNote"));
 //        note.sendKeys("Migration From Utkorsho");
 
+        WebElement receivableAmount = driver.findElement(By.name("receivedAmount"));
+        receivableAmount.sendKeys("0");
+
+//        By discountApprovedByInput = By.id("DiscountApprovedByAutoComplete");
+//        String searchText = "694"; // Replace with your search text
+//        setDropdownValue(driver, "694", "8801708166087 - (0694) - Ratul");
+//
+//
+//        Select type = new Select(driver.findElement(By.name("RefererList")));
+//        type.selectByVisibleText("Team Member");
+//
+//        //selectReferrer(driver, wait, "3979", "3979 - Hady - 8801321143477");
+//        setReferrerValue(driver, "3979","3979 - Hady - 8801321143477");
+
     }
 
-//    private static void selectAutocompleteOption(WebDriver driver, WebDriverWait wait, By by, String text) {
-//        WebElement institution = driver.findElement(by);
-//
-//        institution.click();
-//        //institution.sendKeys("NOTRE DAME");
-//        institution.sendKeys("137031");
-//        institution.click();
-//
-//        institution.sendKeys("DAME COLLEGE MYMENSINGH [137031]");
-//        institution.click();
-//
-//    }
 
     public static void selectReferrer(WebDriver driver, WebDriverWait wait) {
         // Input the search query into the text field
@@ -329,14 +339,6 @@ public class FormSubmissionAutomation {
                 "input.dispatchEvent(event);";
         ((JavascriptExecutor) driver).executeScript(script);
     }
-
-
-
-
-
-
-
-
 
     private static void selectAutocompleteOption(WebDriver driver, WebDriverWait wait, By inputFieldBy, String hint, String completeText) {
         // Find the autocomplete input field and click on it to focus
