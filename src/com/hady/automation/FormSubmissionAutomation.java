@@ -2,8 +2,6 @@ package com.hady.automation;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -174,17 +172,12 @@ public class FormSubmissionAutomation {
             // Navigate to the student admission form page
             driver.get("https://orgbd.net/Student/Admission/NewStudentAdmission");
 
-            // Example student data
-            String[][] studentsData = {
-                    //{"John Doe", "01732394777", "Male", "Islam", "Model Test", "2024", "NOTRE DAME COLLEGE MYMENSINGH [137031]", "Bangla", "Online Branch", "Online Campus"},
-                    {"John Doe", "01732394777", "Male", "Islam", "Ten", "2024", "NOTRE DAME COLLEGE MYMENSINGH [137031]", "Bangla", "Online Branch", "Online Campus"},
-                    // ... add the rest of the students here
-            };
-
-            for (String[] student : studentsData) {
-                fillStudentForm(driver, wait, student);
+            for (UdvashAdmissionModel model: DataSet.BUNDLE_MODULE_1_listamount2500_30) {
+                fillStudentForm(driver, wait, model);
                 // Add a delay between form submissions if needed
-                Thread.sleep(1000);
+                //Thread.sleep(1000);
+                waitForReceiptAndNavigateBack(driver, wait);
+
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -194,21 +187,31 @@ public class FormSubmissionAutomation {
         }
     }
 
-    private static void fillStudentForm(WebDriver driver, WebDriverWait wait, String[] student) throws InterruptedException {
+    private static void waitForReceiptAndNavigateBack(WebDriver driver, WebDriverWait wait) {
+        // Wait for the receipt page URL which contains the ID
+        wait.until(ExpectedConditions.urlMatches(".*GenerateMoneyReciept.*"));
+
+        // Navigate back to the form page to start the next submission
+        //driver.navigate().back();
+        driver.get("https://orgbd.net/Student/Admission/NewStudentAdmission");
+
+    }
+
+    private static void fillStudentForm(WebDriver driver, WebDriverWait wait, UdvashAdmissionModel model) throws InterruptedException {
         WebElement nameInput = driver.findElement(By.name("Name"));
-        nameInput.sendKeys(student[0]);
+        nameInput.sendKeys(model.getName());
 
         WebElement phoneNumber = driver.findElement(By.name("MobNumber"));
-        phoneNumber.sendKeys(student[1]);
+        phoneNumber.sendKeys(model.getNumber());
 
         Select genderDropdown = new Select(driver.findElement(By.name("Gender")));
-        genderDropdown.selectByVisibleText(student[2]);
+        genderDropdown.selectByVisibleText("Male");
 
         Select religionDropdown = new Select(driver.findElement(By.name("Religion")));
-        religionDropdown.selectByVisibleText(student[3]);
+        religionDropdown.selectByVisibleText("Islam");
 
         WebElement classField = driver.findElement(By.name("StudentClass"));
-        classField.sendKeys(student[4]);
+        classField.sendKeys("Ten");
 
         // Assuming "Program" is a select dropdown
         WebElement program = driver.findElement(By.id("Program"));
@@ -225,7 +228,7 @@ public class FormSubmissionAutomation {
         selectAutocompleteOption(driver, wait, By.name("LastInstituteName"), "137031","NOTRE DAME COLLEGE MYMENSINGH [137031]");
 
         Select versionDropdown = new Select(driver.findElement(By.name("VersionOfStudy")));
-        versionDropdown.selectByVisibleText(student[7]); /// Till This Everything is working
+        versionDropdown.selectByVisibleText("Bangla"); /// Till This Everything is working
 
         /**
          This is for Utkorsho SSC Final Preparation and model test
@@ -306,38 +309,8 @@ public class FormSubmissionAutomation {
 //
 //        //selectReferrer(driver, wait, "3979", "3979 - Hady - 8801321143477");
 //        setReferrerValue(driver, "3979","3979 - Hady - 8801321143477");
-
-    }
-
-
-    public static void selectReferrer(WebDriver driver, WebDriverWait wait) {
-        // Input the search query into the text field
-        WebElement referrerInputField = wait.until(ExpectedConditions.elementToBeClickable(By.id("ReferrerNameAutoComplete")));
-        referrerInputField.click();
-        referrerInputField.clear();
-        referrerInputField.sendKeys("694");
-
-        // Wait for the dropdown to appear
-        WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ul.typeahead.dropdown-menu")));
-
-        // Click on the first item in the dropdown
-        WebElement firstItemInDropdown = dropdown.findElement(By.cssSelector("li a"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstItemInDropdown);
-    }
-
-    private static void setReferrerValue(WebDriver driver, String value, String text) {
-        // Use JavaScript to set the value of the autocomplete field and hidden input field
-        String script = "document.getElementById('ReferrerNameAutoComplete').value=arguments[0];" +
-                "document.getElementById('ReferrerName').value=arguments[1];";
-        ((JavascriptExecutor) driver).executeScript(script, text, value);
-
-        // Now trigger any change or selection events that the page relies on
-        script = "var input = document.getElementById('ReferrerNameAutoComplete');" +
-                "var event = new Event('change', { 'bubbles': true, 'cancelable': true });" +
-                "input.dispatchEvent(event);" +
-                "event = new Event('select', { 'bubbles': true, 'cancelable': true });" +
-                "input.dispatchEvent(event);";
-        ((JavascriptExecutor) driver).executeScript(script);
+// Submit the form
+        driver.findElement(By.id("newAdmissionPaymentSubmitBtn")).click();
     }
 
     private static void selectAutocompleteOption(WebDriver driver, WebDriverWait wait, By inputFieldBy, String hint, String completeText) {
@@ -372,23 +345,82 @@ public class FormSubmissionAutomation {
         }
     }
 
-    private static void setDropdownValue(WebDriver driver, String value, String text) {
-        // Use JavaScript to set the value of the autocomplete field and hidden input field
-        String script = "document.getElementById('DiscountApprovedByAutoComplete').value=arguments[0];" +
-                "document.getElementById('DiscountApprovedBy').value=arguments[1];";
-        ((JavascriptExecutor) driver).executeScript(script, text, value);
-
-        // Now trigger any change or selection events that the page relies on
-        script = "var input = document.getElementById('DiscountApprovedByAutoComplete');" +
-                "var event = new Event('change', { 'bubbles': true, 'cancelable': true });" +
-                "input.dispatchEvent(event);" +
-                "event = new Event('select', { 'bubbles': true, 'cancelable': true });" +
-                "input.dispatchEvent(event);";
-        ((JavascriptExecutor) driver).executeScript(script);
-    }
-
-
-
-
 
 }
+
+//    public static void selectReferrer(WebDriver driver, WebDriverWait wait) {
+//        // Input the search query into the text field
+//        WebElement referrerInputField = wait.until(ExpectedConditions.elementToBeClickable(By.id("ReferrerNameAutoComplete")));
+//        referrerInputField.click();
+//        referrerInputField.clear();
+//        referrerInputField.sendKeys("694");
+//
+//        // Wait for the dropdown to appear
+//        WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ul.typeahead.dropdown-menu")));
+//
+//        // Click on the first item in the dropdown
+//        WebElement firstItemInDropdown = dropdown.findElement(By.cssSelector("li a"));
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstItemInDropdown);
+//    }
+//
+//    private static void setReferrerValue(WebDriver driver, String value, String text) {
+//        // Use JavaScript to set the value of the autocomplete field and hidden input field
+//        String script = "document.getElementById('ReferrerNameAutoComplete').value=arguments[0];" +
+//                "document.getElementById('ReferrerName').value=arguments[1];";
+//        ((JavascriptExecutor) driver).executeScript(script, text, value);
+//
+//        // Now trigger any change or selection events that the page relies on
+//        script = "var input = document.getElementById('ReferrerNameAutoComplete');" +
+//                "var event = new Event('change', { 'bubbles': true, 'cancelable': true });" +
+//                "input.dispatchEvent(event);" +
+//                "event = new Event('select', { 'bubbles': true, 'cancelable': true });" +
+//                "input.dispatchEvent(event);";
+//        ((JavascriptExecutor) driver).executeScript(script);
+//    }
+//
+//    private static void selectAutocompleteOption(WebDriver driver, WebDriverWait wait, By inputFieldBy, String hint, String completeText) {
+//        // Find the autocomplete input field and click on it to focus
+//        WebElement inputField = driver.findElement(inputFieldBy);
+//        inputField.click();
+//
+//        // Clear the field and send the search text
+//        inputField.clear();
+//        inputField.sendKeys(hint);
+//
+//        // Define a locator for the dropdown menu items
+//        By optionsBy = By.xpath("//ul[@class='typeahead dropdown-menu']/li/a");
+//
+//        // Wait for the autocomplete options to appear
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(optionsBy));
+//
+//        // Find all the autocomplete options
+//        List<WebElement> options = driver.findElements(optionsBy);
+//
+//        // Iterate through the options and click the one that matches the full text
+//        for (WebElement option : options) {
+//            // Use contains to find the option that has the text
+//            if (option.getText().contains(completeText)) {
+//                // Scroll the option into view
+//                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", option);
+//                // Wait for the option to be clickable
+//                wait.until(ExpectedConditions.elementToBeClickable(option));
+//                option.click();
+//                break;
+//            }
+//        }
+//    }
+//
+//    private static void setDropdownValue(WebDriver driver, String value, String text) {
+//        // Use JavaScript to set the value of the autocomplete field and hidden input field
+//        String script = "document.getElementById('DiscountApprovedByAutoComplete').value=arguments[0];" +
+//                "document.getElementById('DiscountApprovedBy').value=arguments[1];";
+//        ((JavascriptExecutor) driver).executeScript(script, text, value);
+//
+//        // Now trigger any change or selection events that the page relies on
+//        script = "var input = document.getElementById('DiscountApprovedByAutoComplete');" +
+//                "var event = new Event('change', { 'bubbles': true, 'cancelable': true });" +
+//                "input.dispatchEvent(event);" +
+//                "event = new Event('select', { 'bubbles': true, 'cancelable': true });" +
+//                "input.dispatchEvent(event);";
+//        ((JavascriptExecutor) driver).executeScript(script);
+//    }
