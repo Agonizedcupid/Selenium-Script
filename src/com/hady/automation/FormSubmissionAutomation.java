@@ -175,7 +175,7 @@ public class FormSubmissionAutomation {
             // Navigate to the student admission form page
             driver.get("https://orgbd.net/Student/Admission/NewStudentAdmission");
 
-            for (UdvashAdmissionModel model: DataSet.BUNDLE_MODULE_1_listamount2500_30) {
+            for (UdvashAdmissionModel model: DataSet.MATH_FIRST_PAPER_listamount900_1) {
                 fillStudentForm(driver, wait, model);
                 // Add a delay between form submissions if needed
                 //Thread.sleep(1000);
@@ -286,34 +286,34 @@ public class FormSubmissionAutomation {
             checkBox.click();
         }
 
-        WebDriverWait w = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement nextButton = w.until(ExpectedConditions.elementToBeClickable(By.id("newAdmissionNextBtn")));
-
-        nextButton.click();
-
-
-        Thread.sleep(1000);
-        WebElement discountAmount = driver.findElement(By.name("spDiscountAmount"));
-        discountAmount.sendKeys("0");
-
-//        WebElement note = driver.findElement(By.name("referrerenceNote"));
-//        note.sendKeys("Migration From Utkorsho");
-
-        WebElement receivableAmount = driver.findElement(By.name("receivedAmount"));
-        receivableAmount.sendKeys("0");
-
-//        By discountApprovedByInput = By.id("DiscountApprovedByAutoComplete");
-//        String searchText = "694"; // Replace with your search text
-//        setDropdownValue(driver, "694", "8801708166087 - (0694) - Ratul");
+//        WebDriverWait w = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        WebElement nextButton = w.until(ExpectedConditions.elementToBeClickable(By.id("newAdmissionNextBtn")));
+//
+//        nextButton.click();
 //
 //
-//        Select type = new Select(driver.findElement(By.name("RefererList")));
-//        type.selectByVisibleText("Team Member");
+//        Thread.sleep(1000);
+//        WebElement discountAmount = driver.findElement(By.name("spDiscountAmount"));
+//        discountAmount.sendKeys("0");
 //
-//        //selectReferrer(driver, wait, "3979", "3979 - Hady - 8801321143477");
-//        setReferrerValue(driver, "3979","3979 - Hady - 8801321143477");
-// Submit the form
-        driver.findElement(By.id("newAdmissionPaymentSubmitBtn")).click();
+////        WebElement note = driver.findElement(By.name("referrerenceNote"));
+////        note.sendKeys("Migration From Utkorsho");
+//
+//        WebElement receivableAmount = driver.findElement(By.name("receivedAmount"));
+//        receivableAmount.sendKeys("0");
+//
+////        By discountApprovedByInput = By.id("DiscountApprovedByAutoComplete");
+////        String searchText = "694"; // Replace with your search text
+////        setDropdownValue(driver, "694", "8801708166087 - (0694) - Ratul");
+////
+////
+////        Select type = new Select(driver.findElement(By.name("RefererList")));
+////        type.selectByVisibleText("Team Member");
+////
+////        //selectReferrer(driver, wait, "3979", "3979 - Hady - 8801321143477");
+////        setReferrerValue(driver, "3979","3979 - Hady - 8801321143477");
+//// Submit the form
+//        driver.findElement(By.id("newAdmissionPaymentSubmitBtn")).click();
     }
 
     private static void selectAutocompleteOption(WebDriver driver, WebDriverWait wait, By inputFieldBy, String hint, String completeText) {
