@@ -1,5 +1,6 @@
 package com.hady.automation;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -150,7 +151,9 @@ public class FormSubmissionAutomation {
 
     public static void main(String[] args) {
         // Set the path to the chromedriver executable
-        System.setProperty("webdriver.chrome.driver", "/home/aariyan/PseudoCode/Library/chromedriver_linux64/chromedriver");
+       // System.setProperty("webdriver.chrome.driver", "/home/aariyan/PseudoCode/Library/chromedriver_linux64/chromedriver");
+
+        WebDriverManager.chromedriver().setup();
 
         // Create a new instance of the Chrome driver
         WebDriver driver = new ChromeDriver();
