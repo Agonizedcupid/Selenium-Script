@@ -3,8 +3,10 @@ package com.hady.automation;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -151,7 +153,7 @@ public class FormSubmissionAutomation {
 
     public static void main(String[] args) {
         // Set the path to the chromedriver executable
-       // System.setProperty("webdriver.chrome.driver", "/home/aariyan/PseudoCode/Library/chromedriver_linux64/chromedriver");
+        //System.setProperty("webdriver.chrome.driver", "/home/aariyan/PseudoCode/Library/chromedriver_linux64/chromedriver");
 
         WebDriverManager.chromedriver().setup();
 
@@ -175,7 +177,7 @@ public class FormSubmissionAutomation {
             // Navigate to the student admission form page
             driver.get("https://orgbd.net/Student/Admission/NewStudentAdmission");
 
-            for (UdvashAdmissionModel model: DataSet.MATH_FIRST_PAPER_listamount900_1) {
+            for (UdvashAdmissionModel model : DataSet.BUNDLE_MODULE_1_listamount2500_13) {
                 fillStudentForm(driver, wait, model);
                 // Add a delay between form submissions if needed
                 //Thread.sleep(1000);
@@ -214,13 +216,15 @@ public class FormSubmissionAutomation {
         religionDropdown.selectByVisibleText("Islam");
 
         WebElement classField = driver.findElement(By.name("StudentClass"));
-        classField.sendKeys("Ten");
+        //classField.sendKeys("Ten");
+        classField.sendKeys("All Class");
 
         // Assuming "Program" is a select dropdown
         WebElement program = driver.findElement(By.id("Program"));
         program.click();
         //program.sendKeys("Utkorsho SSC Final Preparation & Model Test");
-        program.sendKeys("Utkorsho Free Class");
+        //program.sendKeys("Utkorsho Free Class");
+        program.sendKeys("Utkorsho HSC 25 Premium Academic Course (Bundle Package- Module 1)");
         program.click();
 
         WebElement sessionDropdown = driver.findElement(By.id("Session"));
@@ -228,7 +232,7 @@ public class FormSubmissionAutomation {
         sessionDropdown.sendKeys("2024");
         sessionDropdown.click();
 
-        selectAutocompleteOption(driver, wait, By.name("LastInstituteName"), "137031","NOTRE DAME COLLEGE MYMENSINGH [137031]");
+        selectAutocompleteOption(driver, wait, By.name("LastInstituteName"), "137031", "NOTRE DAME COLLEGE MYMENSINGH [137031]");
 
         Select versionDropdown = new Select(driver.findElement(By.name("VersionOfStudy")));
         versionDropdown.selectByVisibleText("Bangla"); /// Till This Everything is working
@@ -237,29 +241,29 @@ public class FormSubmissionAutomation {
          This is for Utkorsho SSC Final Preparation and model test
          */
 //        Select branchDropdown = new Select(driver.findElement(By.name("OnlineBranch")));
-//        branchDropdown.selectByVisibleText(student[8]);
+//        branchDropdown.selectByVisibleText("Online Branch");
 //
 //        Select campusDropdown = new Select(driver.findElement(By.name("Campus")));
-//        campusDropdown.selectByVisibleText(student[9]);
+//        campusDropdown.selectByVisibleText("Online Campus");
 
 
         /**
          This is for Utkorsho SSC Final Preparation and model test
          */
         // Assuming student[8] is the text for the branch you want to select.
-//        WebElement branchDropdown = driver.findElement(By.name("OnlineBranch"));
-//        branchDropdown.click(); // to expand the dropdown
-//        branchDropdown.sendKeys(student[8]); // to filter or input the text
-//        branchDropdown.sendKeys(Keys.RETURN); // to select the filtered option
+        WebElement bd = driver.findElement(By.name("OnlineBranch"));
+        bd.click(); // to expand the dropdown
+        bd.sendKeys("Online Branch"); // to filter or input the text
+        bd.sendKeys(Keys.RETURN); // to select the filtered option
 
         /**
          This is for Utkorsho SSC Final Preparation and model test
          */
 //        Select branchD = new Select(driver.findElement(By.id("Branch")));
-//        branchD.selectByVisibleText("Online Utkorsho");
+//        branchD.selectByVisibleText("Online Branch");
 
 
-                WebElement branchDropdown = driver.findElement(By.name("Branch"));
+        WebElement branchDropdown = driver.findElement(By.name("Branch"));
         branchDropdown.click(); // to expand the dropdown
         branchDropdown.sendKeys("Online Utkorsho"); // to filter or input the text
         branchDropdown.sendKeys(Keys.RETURN);
@@ -281,39 +285,144 @@ public class FormSubmissionAutomation {
 //        }
 
 
-        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1363']"));
+        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1360']"));
         if (!checkBox.isSelected()) {
             checkBox.click();
         }
 
-//        WebDriverWait w = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        WebElement nextButton = w.until(ExpectedConditions.elementToBeClickable(By.id("newAdmissionNextBtn")));
+        WebDriverWait w = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement nextButton = w.until(ExpectedConditions.elementToBeClickable(By.id("newAdmissionNextBtn")));
+
+        nextButton.click();
+
+
+        Thread.sleep(1000);
+        WebElement discountAmount = driver.findElement(By.name("spDiscountAmount"));
+        discountAmount.sendKeys("2500");
+
+        WebElement note = driver.findElement(By.name("referrerenceNote"));
+        note.sendKeys("Migration From Utkorsho");
+
+        WebElement receivableAmount = driver.findElement(By.name("receivedAmount"));
+        receivableAmount.sendKeys("0");
+
+//        By discountApprovedByInput = By.id("DiscountApprovedByAutoComplete");
+//        discountApprovedByInput.click();
+//        String searchText = "694"; // Replace with your search text
+//        selectAutocompleteOption2(driver, wait, discountApprovedByInput,"694", "8801708166087 - (0694) - Ratul");
 //
-//        nextButton.click();
 //
+
+       discountApproval(driver, wait);
+
+
+        //selectAutocompleteOption2(driver,wait,inputFieldBy,hint);
+
+//        WebElement inputField = driver.findElement(By.id("DiscountApprovedByAutoComplete"));
+//        inputField.sendKeys("694"); // Enter the user input
 //
-//        Thread.sleep(1000);
-//        WebElement discountAmount = driver.findElement(By.name("spDiscountAmount"));
-//        discountAmount.sendKeys("0");
+//        WebDriverWait c = new WebDriverWait(driver, Duration.ofSeconds(5)); // Set a timeout of 5 seconds for the suggestion to appear
+//        c.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class='typeahead dropdown-menu']//li[1]"))); // Wait for the first suggestion item to appear
 //
-////        WebElement note = driver.findElement(By.name("referrerenceNote"));
-////        note.sendKeys("Migration From Utkorsho");
+//        WebElement suggestionItem = driver.findElement(By.xpath("//ul[@class='typeahead dropdown-menu']//li[1]"));
+//        suggestionItem.click();
+
+
+
+        Select type = new Select(driver.findElement(By.name("RefererList")));
+        type.selectByVisibleText("Team Member");
 //
-//        WebElement receivableAmount = driver.findElement(By.name("receivedAmount"));
-//        receivableAmount.sendKeys("0");
-//
-////        By discountApprovedByInput = By.id("DiscountApprovedByAutoComplete");
-////        String searchText = "694"; // Replace with your search text
-////        setDropdownValue(driver, "694", "8801708166087 - (0694) - Ratul");
-////
-////
-////        Select type = new Select(driver.findElement(By.name("RefererList")));
-////        type.selectByVisibleText("Team Member");
-////
-////        //selectReferrer(driver, wait, "3979", "3979 - Hady - 8801321143477");
-////        setReferrerValue(driver, "3979","3979 - Hady - 8801321143477");
-//// Submit the form
-//        driver.findElement(By.id("newAdmissionPaymentSubmitBtn")).click();
+        //selectReferrer(driver, wait, "3979", "3979 - Hady - 8801321143477");
+        //setReferrerValue(driver, "3979", "3979 - Hady - 8801321143477");
+
+        selectDiscountReferrer(driver, wait);
+
+// Submit the form
+        //driver.findElement(By.id("newAdmissionPaymentSubmitBtn")).click();
+        //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        WebElement submitBtn = wait.until(ExpectedConditions.elementToBeClickable(By.id("newAdmissionPaymentSubmitBtn")));
+//        submitBtn.click();
+
+        WebDriverWait aa = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement sub = aa.until(ExpectedConditions.elementToBeClickable(By.id("newAdmissionPaymentSubmitBtn")));
+
+        sub.click();
+
+    }
+
+    private static void selectDiscountReferrer(WebDriver driver, WebDriverWait wait) {
+        WebDriverWait aa = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement sub = aa.until(ExpectedConditions.elementToBeClickable(By.id("ReferrerNameAutoComplete")));
+
+        By inputFieldBy = By.id("ReferrerNameAutoComplete");
+        String hint = "3979"; // Replace with your initial text
+        String completeText = "3979 - Hady - 8801321143477";
+
+
+        WebElement inputField = driver.findElement(inputFieldBy);
+        inputField.click();
+
+        // Clear the field and send the search text
+        inputField.clear();
+        inputField.sendKeys(hint);
+
+        // Define a locator for the dropdown menu items
+        By optionsBy = By.xpath("//div[@class='form-group referrerTextField']//a[@role='option']");
+
+        // Wait for the autocomplete options to appear
+        wait.until(ExpectedConditions.visibilityOfElementLocated(optionsBy));
+
+        // Find all the autocomplete options
+        List<WebElement> options = driver.findElements(optionsBy);
+
+        // Iterate through the options and click the one that matches the full text
+        for (WebElement option : options) {
+            // Use contains to find the option that has the text
+            if (option.getText().contains(completeText)) {
+                // Scroll the option into view
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", option);
+                // Wait for the option to be clickable
+                wait.until(ExpectedConditions.elementToBeClickable(option));
+                option.click();
+                break;
+            }
+        }
+    }
+
+    private static void discountApproval(WebDriver driver, WebDriverWait wait) {
+        By inputFieldBy = By.id("DiscountApprovedByAutoComplete");
+        String hint = "694"; // Replace with your initial text
+        String completeText = "8801708166087 - (0694) - Ratul";
+
+
+        WebElement inputField = driver.findElement(inputFieldBy);
+        inputField.click();
+
+        // Clear the field and send the search text
+        inputField.clear();
+        inputField.sendKeys(hint);
+
+        // Define a locator for the dropdown menu items
+        By optionsBy = By.xpath("//div[@class='row']//div//div[@class='col-md-12']//a[@role='option']");
+
+        // Wait for the autocomplete options to appear
+        wait.until(ExpectedConditions.visibilityOfElementLocated(optionsBy));
+
+        // Find all the autocomplete options
+        List<WebElement> options = driver.findElements(optionsBy);
+
+        // Iterate through the options and click the one that matches the full text
+        for (WebElement option : options) {
+            // Use contains to find the option that has the text
+            if (option.getText().contains(completeText)) {
+                // Scroll the option into view
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", option);
+                // Wait for the option to be clickable
+                wait.until(ExpectedConditions.elementToBeClickable(option));
+                option.click();
+                break;
+            }
+        }
     }
 
     private static void selectAutocompleteOption(WebDriver driver, WebDriverWait wait, By inputFieldBy, String hint, String completeText) {
@@ -348,6 +457,64 @@ public class FormSubmissionAutomation {
         }
     }
 
+    public static void selectAutocompleteOption2(WebDriver driver, WebDriverWait wait, By inputFieldBy, String hint) {
+        WebElement inputField = driver.findElement(inputFieldBy);
+
+        // Scroll the input field into view, click to focus, clear it, and send the search text
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", inputField);
+        inputField.click();
+        inputField.clear();
+        inputField.sendKeys(hint);
+
+        // Define a locator for the dropdown menu items
+        By optionsBy = By.xpath("//ul[@class='typeahead dropdown-menu']/li/a");
+
+        // Wait for the autocomplete options to be present in the DOM
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(optionsBy));
+
+        // Attempt to click the first option in the dropdown
+        try {
+            List<WebElement> options = driver.findElements(optionsBy);
+            if (!options.isEmpty()) {
+                WebElement firstOption = options.get(0);
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstOption);
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to click on the option. Error: " + e.getMessage());
+        }
+    }
+
+
+
+//    private static void setReferrerValue(WebDriver driver, String value, String text) {
+//        // Use JavaScript to set the value of the autocomplete field and hidden input field
+//        String script = "document.getElementById('ReferrerNameAutoComplete').value=arguments[0];" +
+//                "document.getElementById('ReferrerName').value=arguments[1];";
+//        ((JavascriptExecutor) driver).executeScript(script, text, value);
+//
+//        // Now trigger any change or selection events that the page relies on
+//        script = "var input = document.getElementById('ReferrerNameAutoComplete');" +
+//                "var event = new Event('change', { 'bubbles': true, 'cancelable': true });" +
+//                "input.dispatchEvent(event);" +
+//                "event = new Event('select', { 'bubbles': true, 'cancelable': true });" +
+//                "input.dispatchEvent(event);";
+//        ((JavascriptExecutor) driver).executeScript(script);
+//    }
+
+//    private static void setDropdownValue(WebDriver driver, String value, String text) {
+//        // Use JavaScript to set the value of the autocomplete field and hidden input field
+//        String script = "document.getElementById('DiscountApprovedByAutoComplete').value=arguments[0];" +
+//                "document.getElementById('DiscountApprovedBy').value=arguments[1];";
+//        ((JavascriptExecutor) driver).executeScript(script, text, value);
+//
+//        // Now trigger any change or selection events that the page relies on
+//        script = "var input = document.getElementById('DiscountApprovedByAutoComplete');" +
+//                "var event = new Event('change', { 'bubbles': true, 'cancelable': true });" +
+//                "input.dispatchEvent(event);" +
+//                "event = new Event('select', { 'bubbles': true, 'cancelable': true });" +
+//                "input.dispatchEvent(event);";
+//        ((JavascriptExecutor) driver).executeScript(script);
+//    }
 
 }
 
