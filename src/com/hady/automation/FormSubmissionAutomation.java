@@ -177,7 +177,7 @@ public class FormSubmissionAutomation {
             // Navigate to the student admission form page
             driver.get("https://orgbd.net/Student/Admission/NewStudentAdmission");
 
-            for (UdvashAdmissionModel model : DataSet.BUNDLE_MODULE_1_listamount2500_15) {
+            for (UdvashAdmissionModel model : DataSet.MATH_FIRST_PAPER_listamount900_3) {
                 fillStudentForm(driver, wait, model);
                 // Add a delay between form submissions if needed
                 //Thread.sleep(1000);
@@ -224,7 +224,9 @@ public class FormSubmissionAutomation {
         program.click();
         //program.sendKeys("Utkorsho SSC Final Preparation & Model Test");
         //program.sendKeys("Utkorsho Free Class");
-        program.sendKeys("Utkorsho HSC 25 Premium Academic Course (Bundle Package- Module 1)");
+//        program.sendKeys("Utkorsho HSC 25 Premium Academic Course (Bundle Package- Module 1)");
+//        program.sendKeys("Utkorsho HSC 25 Premium Academic Course- Higher Math (Module 1)");
+        program.sendKeys("Utkorsho HSC 25 Premium Academic Course- Physics (Module 1)");
         program.click();
 
         WebElement sessionDropdown = driver.findElement(By.id("Session"));
@@ -275,6 +277,11 @@ public class FormSubmissionAutomation {
         campusDropdown.click();
         campusDropdown.sendKeys("Online Campus");
         campusDropdown.click();
+
+        WebElement physicalDropdown = driver.findElement(By.id("AttachedPhysicalBranch"));
+        physicalDropdown.click();
+        physicalDropdown.sendKeys("Online Utkorsho");
+        physicalDropdown.click();
 /**
  This is for Utkorsho SSC Final Preparation and model test
  */
@@ -285,7 +292,12 @@ public class FormSubmissionAutomation {
 //        }
 
 
-        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1360']"));
+//        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1360']"));
+//        if (!checkBox.isSelected()) {
+//            checkBox.click();
+//        }
+
+        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1407']"));
         if (!checkBox.isSelected()) {
             checkBox.click();
         }
@@ -298,7 +310,8 @@ public class FormSubmissionAutomation {
 
         Thread.sleep(1000);
         WebElement discountAmount = driver.findElement(By.name("spDiscountAmount"));
-        discountAmount.sendKeys("2500");
+//        discountAmount.sendKeys("2500");
+        discountAmount.sendKeys("900");
 
         WebElement note = driver.findElement(By.name("referrerenceNote"));
         note.sendKeys("Migration From Utkorsho");
