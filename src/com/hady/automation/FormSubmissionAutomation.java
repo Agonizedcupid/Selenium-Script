@@ -177,7 +177,7 @@ public class FormSubmissionAutomation {
             // Navigate to the student admission form page
             driver.get("https://orgbd.net/Student/Admission/NewStudentAdmission");
 
-            for (UdvashAdmissionModel model : DataSet.MATH_FIRST_PAPER_listamount900_3) {
+            for (UdvashAdmissionModel model : DataSet.BIOLOGY_FIRST_PAPER_listamount900_6) {
                 fillStudentForm(driver, wait, model);
                 // Add a delay between form submissions if needed
                 //Thread.sleep(1000);
@@ -226,7 +226,9 @@ public class FormSubmissionAutomation {
         //program.sendKeys("Utkorsho Free Class");
 //        program.sendKeys("Utkorsho HSC 25 Premium Academic Course (Bundle Package- Module 1)");
 //        program.sendKeys("Utkorsho HSC 25 Premium Academic Course- Higher Math (Module 1)");
-        program.sendKeys("Utkorsho HSC 25 Premium Academic Course- Physics (Module 1)");
+//        program.sendKeys("Utkorsho HSC 25 Premium Academic Course- Physics (Module 1)");
+//        program.sendKeys("Utkorsho HSC 25 Premium Academic Course- Chemistry (Module 1)");
+        program.sendKeys("Utkorsho HSC 25 Premium Academic Course- Biology (Module 1)");
         program.click();
 
         WebElement sessionDropdown = driver.findElement(By.id("Session"));
@@ -297,7 +299,9 @@ public class FormSubmissionAutomation {
 //            checkBox.click();
 //        }
 
-        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1407']"));
+//        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1407']"));
+//        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1410']"));
+        WebElement checkBox = driver.findElement(By.cssSelector("input.course-name-check[data-course-id='1409']"));
         if (!checkBox.isSelected()) {
             checkBox.click();
         }
